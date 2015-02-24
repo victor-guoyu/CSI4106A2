@@ -1,12 +1,27 @@
 package main;
 
 public class Position {
-    public int X;
-    public int Y;
+    public final int X;
+    public final int Y;
 
     public Position(int X, int Y) {
         this.X = X;
         this.Y = Y;
+    }
+
+    public static Position getPositionOf(Direction direction, Position position) {
+        switch(direction) {
+        case TOP:
+            return new Position(position.X-1, position.Y);
+        case RIGHT:
+            return new Position(position.X, position.Y+1);
+        case BOTTOM:
+            return new Position(position.X+1, position.Y);
+        case LEFT:
+            return new Position(position.X, position.Y-1);
+        default:
+            return new Position(Integer.MAX_VALUE, Integer.MAX_VALUE);
+        }
     }
 
     @Override

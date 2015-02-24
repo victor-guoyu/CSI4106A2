@@ -1,22 +1,25 @@
 package main;
 
-import static main.Maze.FIRST_BOARD_HEIGH;
-import static main.Maze.FIRST_BOARD_WIDTH;
-
 import java.util.ArrayList;
+import java.util.Queue;
+
+import com.google.common.collect.Queues;
+import com.google.common.collect.Range;
 
 public class Main {
 
     public static void main(String[] args) {
-        AStartAlgorithm algorithm = new AStartAlgorithm();
-        Cell[][] board = Maze.getFistBoard();
-        Position home = Maze.getHome();
-        ArrayList<Position> smileys = getSmileys(FIRST_BOARD_HEIGH - 1,
-                FIRST_BOARD_WIDTH - 1);
-        for (Position smiley : smileys) {
-            printMaze(algorithm.run(board, smiley, home));
-            Maze.resetBoard();
-        }
+//        AStartAlgorithm algorithm = new AStartAlgorithm();
+//        Cell[][] board = Maze.getFistBoard();
+//        Position home = Maze.getHome();
+//        ArrayList<Position> smileys = getSmileys(FIRST_BOARD_HEIGH - 1,
+//                FIRST_BOARD_WIDTH - 1);
+//
+//        for (Position smiley : smileys) {
+//            printMaze(algorithm.run(board, smiley, home));
+//            Maze.resetBoard();
+//        }
+        printMaze(Maze.getFistBoard());
     }
 
     /**
@@ -49,5 +52,24 @@ public class Main {
             msg += "\n";
         }
         System.out.println(msg);
+    }
+
+    private static void testProperityQueue() {
+        Queue<Integer> openList = Queues.newPriorityQueue();
+        openList.add(10);
+        openList.add(10);
+        openList.add(11);
+        openList.add(1);
+        openList.add(30);
+        openList.add(5);
+        openList.add(6);
+        while (!openList.isEmpty()) {
+            System.out.println(openList.poll());
+        }
+    }
+
+    private static void testRange() {
+        Range<Integer> test = Range.closed(0, 9);
+        System.out.println("test:"+ test.contains(-1));
     }
 }

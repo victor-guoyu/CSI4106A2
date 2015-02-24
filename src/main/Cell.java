@@ -5,6 +5,7 @@ public class Cell implements Comparable<Cell> {
     private Cell     parent;
     private Position position;
     private int      heuristic;
+    private int      cost;
 
     private Cell(Position position, CellType type) {
         this.position = position;
@@ -33,6 +34,14 @@ public class Cell implements Comparable<Cell> {
 
     public void setHeuristic(int heuristic) {
         this.heuristic = heuristic;
+    }
+
+    public int getCost() {
+        return cost;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
     }
 
     public Position getPosition() {
@@ -65,15 +74,14 @@ public class Cell implements Comparable<Cell> {
 
     @Override
     public String toString() {
-        String msg = String.format("Cell type: %s at position [$s, %s]",
-                type.name(),
-                position.X, position.Y);
+        String msg = String.format("Cell type: %s at position [%s, %s]",
+                type.name(), position.X, position.Y);
         return msg;
     }
 
     @Override
     public int compareTo(Cell o) {
-        // Smaller heuristic -> higher priority
-        return o.heuristic - this.heuristic;
+        // Natural Ordering
+        return (this.heuristic + this.cost) - (o.heuristic + o.cost);
     }
 }
