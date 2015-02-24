@@ -13,10 +13,8 @@ public class AStartAlgorithm {
     // List close list - the nodes that we have already visited
     List<Cell> closeList = Lists.newLinkedList();
 
-    public Cell[][] run(Cell[][] board, Position start, Position home) {
-        Cell startCell = board[start.X][start.Y];
-        Cell homeCell = board[home.X][home.Y];
-        runRec(board, startCell, homeCell);
+    public Cell[][] run(Cell[][] board, Cell start, Cell home) {
+        runRec(board, start, home);
         return board;
     }
 

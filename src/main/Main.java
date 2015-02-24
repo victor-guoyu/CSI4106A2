@@ -6,19 +6,21 @@ import java.util.Queue;
 import com.google.common.collect.Queues;
 import com.google.common.collect.Range;
 
+import static main.Maze.*;
 public class Main {
 
     public static void main(String[] args) {
-//        AStartAlgorithm algorithm = new AStartAlgorithm();
-//        Cell[][] board = Maze.getFistBoard();
-//        Position home = Maze.getHome();
-//        ArrayList<Position> smileys = getSmileys(FIRST_BOARD_HEIGH - 1,
-//                FIRST_BOARD_WIDTH - 1);
-//
-//        for (Position smiley : smileys) {
-//            printMaze(algorithm.run(board, smiley, home));
-//            Maze.resetBoard();
-//        }
+        AStartAlgorithm algorithm = new AStartAlgorithm();
+        Cell[][] board = Maze.getFistBoard();
+        Cell homeCell = Maze.getHome();
+        ArrayList<Position> smileys = getSmileys(FIRST_BOARD_HEIGH - 1,
+                FIRST_BOARD_WIDTH - 1);
+
+        for (Position smiley : smileys) {
+            Cell smileyCell = Maze.positionToCell(smiley);
+            printMaze(algorithm.run(board, smileyCell, homeCell));
+            Maze.resetBoard();
+        }
         printMaze(Maze.getFistBoard());
     }
 
