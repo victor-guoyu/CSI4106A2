@@ -1,11 +1,13 @@
 package main;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Ordering;
 
 public class Main {
 
@@ -13,18 +15,26 @@ public class Main {
         AStartAlgorithm algorithm = new AStartAlgorithm();
         Cell[][] board = getBoard();
         Cell home = Maze.getHome();
-        ArrayList<Position> smileys = getSmileys();
+        List<SmileyFace> smileys = getSmileys();
 
-        for (Position smiley : smileys) {
-            Cell smileyCell = Maze.positionToCell(smiley);
+        for (SmileyFace smiley : smileys) {
+            Cell smileyCell = Maze.positionToCell(smiley.getPosition());
             List<Cell> path = algorithm.run(board, smileyCell, home);
-            printMaze(Maze.getFistBoard(), path);
+            printMaze(board, path);
             printPath(path);
             System.out.println(String.format("Total cost form %s to home: %s\n",
                     smileyCell.toString(), home.getCost()));
+            smiley.setCost(home.getCost());
             Maze.resetBoard();
             algorithm.clearList();
         }
+        printWinner(smileys);
+    }
+
+    private static void printWinner(List<SmileyFace> smileys) {
+        SmileyFace winner = Ordering.natural().min(smileys);
+        System.out.println(String.format("The winner is Smiley face at %s",
+                winner.getPosition()));
     }
 
     private static void printPath(List<Cell> path) {
@@ -42,10 +52,9 @@ public class Main {
     }
 
     private static void printMaze(Cell[][] board, List<Cell> path) {
-        Cell[][] test = Maze.getFistBoard();
         StringBuilder msg = new StringBuilder();
         msg.append("E - Empty, O - obstacle, S - Smiley face move path \n\n");
-        for (Cell[] eachRow : test) {
+        for (Cell[] eachRow : board) {
             for (Cell currentCell : eachRow) {
                 if (currentCell.getCellType() == CellType.BOUNDAY) {
                     continue;
@@ -64,17 +73,22 @@ public class Main {
     /**
      * @return an ArrayList containing 4 Smileys from user input
      */
-    private static ArrayList<Position> getSmileys() {
-        ArrayList<Position> smileys = new ArrayList<Position>(4);
-        Position topLeft = new Position(0, 0);
-        Position topRight = new Position(0, 6);
-        Position bottomLeft = new Position(5, 0);
-        Position bottomRight = new Position(4, 5);
-        smileys.add(topLeft);
-        smileys.add(topRight);
-        smileys.add(bottomLeft);
-        smileys.add(bottomRight);
-        return smileys;
+    private static List<SmileyFace> getSmileys() {
+        List<Position> positions = Lists.newArrayList();
+        positions.add(new Position(0, 0));
+        positions.add(new Position(0, 6));
+        positions.add(new Position(5, 0));
+        positions.add(new Position(6, 6));
+
+        Iterable<SmileyFace> smileyFaces= Iterables.transform(positions,
+                new Function<Position, SmileyFace>(){
+
+                @Override
+                public SmileyFace apply(Position position) {
+                    return SmileyFace.getSmileyFace(position);
+                }});
+
+        return ImmutableList.copyOf(smileyFaces);
     }
 
     /**

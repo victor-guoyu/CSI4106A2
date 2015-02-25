@@ -39,6 +39,7 @@ public class Maze {
         boardWidthRange = Range.closed(0, SECOND_BOARD_WIDTH - 1);
         boardHeightRange = Range.closed(0, SECOND_BOARD_HEIGH - 1);
         initializeBoardWithEmptyCell();
+        addObstaclesAndHomeForSecondBoard();
         addHeuristicForEachCell();
         return board;
     }
@@ -263,6 +264,34 @@ public class Maze {
         board[5][2].setCellType(CellType.OBSTACLE);
         board[5][3].setCellType(CellType.OBSTACLE);
         board[5][4].setCellType(CellType.OBSTACLE);
+    }
+
+    private void addObstaclesAndHomeForSecondBoard() {
+        home = board[3][3];
+        board[3][3].setCellType(CellType.HOME);
+        board[0][3].setCellType(CellType.OBSTACLE);
+        board[1][1].setCellType(CellType.OBSTACLE);
+        board[1][4].setCellType(CellType.OBSTACLE);
+        board[2][1].setCellType(CellType.OBSTACLE);
+        board[2][4].setCellType(CellType.OBSTACLE);
+        board[3][1].setCellType(CellType.OBSTACLE);
+        board[3][2].setCellType(CellType.OBSTACLE);
+        board[3][4].setCellType(CellType.OBSTACLE);
+        board[4][2].setCellType(CellType.OBSTACLE);
+        board[5][2].setCellType(CellType.OBSTACLE);
+        board[5][3].setCellType(CellType.OBSTACLE);
+        board[5][4].setCellType(CellType.OBSTACLE);
+        board[6][5].setCellType(CellType.OBSTACLE);
+        board[2][7].setCellType(CellType.BOUNDAY);
+        board[2][8].setCellType(CellType.BOUNDAY);
+        board[3][7].setCellType(CellType.BOUNDAY);
+        board[3][8].setCellType(CellType.BOUNDAY);
+        board[4][7].setCellType(CellType.BOUNDAY);
+        board[4][8].setCellType(CellType.BOUNDAY);
+        board[5][7].setCellType(CellType.BOUNDAY);
+        board[5][8].setCellType(CellType.BOUNDAY);
+        board[6][7].setCellType(CellType.BOUNDAY);
+        board[6][8].setCellType(CellType.BOUNDAY);
     }
 
     public static Cell positionToCell(Position position) {

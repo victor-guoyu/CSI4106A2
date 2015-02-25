@@ -1,7 +1,7 @@
 package main;
 
 public enum CellType {
-        EMPTY('E'),
+        EMPTY('_'),
         OBSTACLE('O'),
         HOME('H'),
         BOUNDAY('B'),

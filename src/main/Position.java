@@ -60,6 +60,6 @@ public class Position {
 
     @Override
     public String toString() {
-        return String.format("The position is [%s, %s]", X, Y);
+        return String.format("Position [%s, %s]", X, Y);
     }
 }
