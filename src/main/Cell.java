@@ -28,8 +28,8 @@ public class Cell implements Comparable<Cell> {
         return parent;
     }
 
-    public int getHeuristic() {
-        return heuristic;
+    public int getWeight() {
+        return heuristic + cost;
     }
 
     public void setHeuristic(int heuristic) {
@@ -50,7 +50,7 @@ public class Cell implements Comparable<Cell> {
 
     public void clear() {
         this.parent = null;
-        this.heuristic = 0;
+        this.cost = 0;
     }
 
     public static Cell getInstance(Position position, CellType type) {

@@ -12,16 +12,27 @@ public class Main {
     public static void main(String[] args) {
         AStartAlgorithm algorithm = new AStartAlgorithm();
         Cell[][] board = Maze.getFistBoard();
-        Cell homeCell = Maze.getHome();
-        ArrayList<Position> smileys = getSmileys(FIRST_BOARD_HEIGH - 1,
-                FIRST_BOARD_WIDTH - 1);
-
-        for (Position smiley : smileys) {
-            Cell smileyCell = Maze.positionToCell(smiley);
-            printMaze(algorithm.run(board, smileyCell, homeCell));
-            Maze.resetBoard();
-        }
+        Cell home = Maze.getHome();
+//        ArrayList<Position> smileys = getSmileys(FIRST_BOARD_HEIGH - 1,
+//                FIRST_BOARD_WIDTH - 1);
+//
+//        for (Position smiley : smileys) {
+//            Cell smileyCell = Maze.positionToCell(smiley);
+//            printMaze(algorithm.run(board, smileyCell, homeCell));
+//            Maze.resetBoard();
+//        }
+        Cell start = board[0][0];
+        algorithm.run(board, start, home);
         printMaze(Maze.getFistBoard());
+        printRoute(home);
+    }
+
+    private static void printRoute(Cell home) {
+        Cell pointer = home;
+        while (pointer.getParent()!=null) {
+            System.out.println(pointer.toString());
+            pointer = pointer.getParent();
+        }
     }
 
     /**

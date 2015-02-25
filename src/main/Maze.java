@@ -16,7 +16,7 @@ public class Maze {
     public static final int SECOND_BOARD_HEIGH = 9;
 
     private Cell[][]        board;
-    private Cell        home;
+    private Cell            home;
     private Range<Integer>  boardWidthRange;
     private Range<Integer>  boardHeightRange;
 
@@ -101,7 +101,7 @@ public class Maze {
      * Possible threw exception if the destination cell is invalid
      * @param cell
      * @param direction
-     * @return The cell one step vertically to the given cell
+     * @return The cell one step vertically to the given cell regardless the cell type
      */
     private Cell moveVertical(Cell cell, Direction direction) {
         Position position = cell.getPosition();
@@ -123,7 +123,7 @@ public class Maze {
      * Possible threw exception if the destination cell is invalid
      * @param cell
      * @param direction
-     * @return The cell one step horizontally to the given cell
+     * @return The cell one step horizontally to the given cell regardless the cell type
      */
     private Cell moveHorizontal(Cell cell, Direction direction) {
         Position position = cell.getPosition();
@@ -243,7 +243,8 @@ public class Maze {
      * @return boolean indicate if the cell is empty or not
      */
     private static boolean isAvailable(Position position) {
-        return positionToCell(position).getCellType() == CellType.EMPTY;
+        return positionToCell(position).getCellType() == CellType.EMPTY
+                || positionToCell(position).getCellType() == CellType.HOME;
     }
 
     // Hard coded first maze

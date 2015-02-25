@@ -19,29 +19,38 @@ public class AStartAlgorithm {
     }
 
     private void runRec(Cell[][] board, Cell start, Cell home) {
+        System.out.println("At cell: " + start.toString());
         List<Cell> neighbors = Maze.getNeighbours(start);
         if (neighbors.contains(home)) {
             //We have reached out goal!
             home.setParent(start);
+            System.out.println("It's shoule be working!");
             return;
         } else {
             for (Cell cell: neighbors) {
                 if (closeList.contains(cell)) {
                     continue;
                 }
-                if (!openList.contains(cell)) {
+                if (openList.contains(cell)
+                        && ((start.getCost() + 1) < cell.getCost())) {
+                    // if the cost of reaching that node from this new node is
+                    // small than
+                    // the original parent set the cell parent to the new node
+                    // and update cost (not herustric)
                     cell.setParent(start);
-                    //set cost
-                    openList.add(cell);
+                    cell.setCost(start.getCost() + 1);
                 } else {
-                    //if the cost of reaching that node from this new node is small than
-                    //the original parent set the cell parent to the new node and update cost (not herustric)
+                    cell.setParent(start);
+                    cell.setCost(start.getCost() + 1);
+                    openList.add(cell);
                 }
             }
             closeList.add(start);
         }
 
-        runRec(board, openList.poll(), home);
+        if (openList.size() >0 ) {
+            runRec(board, openList.poll(), home);
+        }
     }
 
 

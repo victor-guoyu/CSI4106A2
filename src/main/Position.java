@@ -26,17 +26,17 @@ public class Position {
 
     public Direction verticalDirectionTo(Position position) {
         if (Integer.compare(this.X, position.X) > 0) {
-            return Direction.BOTTOM;
-        } else {
             return Direction.TOP;
+        } else {
+            return Direction.BOTTOM;
         }
     }
 
     public Direction horizontalDirectionTo(Position position) {
         if (Integer.compare(this.Y, position.Y) > 0) {
-            return Direction.RIGHT;
-        } else {
             return Direction.LEFT;
+        } else {
+            return Direction.RIGHT;
         }
     }
 
