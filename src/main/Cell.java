@@ -74,8 +74,7 @@ public class Cell implements Comparable<Cell> {
 
     @Override
     public String toString() {
-        String msg = String.format("Cell type: %s at position [%s, %s]",
-                type.name(), position.X, position.Y);
+        String msg = String.format("Position [%s, %s]", position.X, position.Y);
         return msg;
     }
 

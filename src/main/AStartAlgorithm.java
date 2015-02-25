@@ -3,28 +3,36 @@ package main;
 import java.util.List;
 import java.util.Queue;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
 
 public class AStartAlgorithm {
     // Opening list - the nodes that we have not visit yet
-    Queue<Cell> openList  = Queues.newPriorityQueue();
+    private Queue<Cell> openList  = Queues.newPriorityQueue();
 
     // List close list - the nodes that we have already visited
-    List<Cell> closeList = Lists.newLinkedList();
+    private List<Cell> closeList = Lists.newLinkedList();
 
-    public Cell[][] run(Cell[][] board, Cell start, Cell home) {
+    private static final int MOVE_COST = 1;
+
+    public List<Cell> run(Cell[][] board, Cell start, Cell home) {
         runRec(board, start, home);
-        return board;
+        Cell pointer = home;
+        List<Cell> path = Lists.newLinkedList();
+        while (pointer != null) {
+            path.add(0, pointer);
+            pointer = pointer.getParent();
+        }
+        return ImmutableList.copyOf(path);
     }
 
     private void runRec(Cell[][] board, Cell start, Cell home) {
-        System.out.println("At cell: " + start.toString());
         List<Cell> neighbors = Maze.getNeighbours(start);
         if (neighbors.contains(home)) {
             //We have reached out goal!
             home.setParent(start);
-            System.out.println("It's shoule be working!");
+            home.setCost(start.getCost() + MOVE_COST);
             return;
         } else {
             for (Cell cell: neighbors) {
@@ -32,26 +40,28 @@ public class AStartAlgorithm {
                     continue;
                 }
                 if (openList.contains(cell)
-                        && ((start.getCost() + 1) < cell.getCost())) {
-                    // if the cost of reaching that node from this new node is
-                    // small than
-                    // the original parent set the cell parent to the new node
-                    // and update cost (not herustric)
+                        && ((start.getCost() + MOVE_COST) < cell.getCost())) {
                     cell.setParent(start);
-                    cell.setCost(start.getCost() + 1);
+                    cell.setCost(start.getCost() + MOVE_COST);
                 } else {
                     cell.setParent(start);
-                    cell.setCost(start.getCost() + 1);
+                    cell.setCost(start.getCost() + MOVE_COST);
                     openList.add(cell);
                 }
             }
             closeList.add(start);
         }
 
-        if (openList.size() >0 ) {
+        if (openList.size() > 0) {
             runRec(board, openList.poll(), home);
         }
     }
 
-
+    /**
+     * Clear all the data cached inside of the open list and close list
+     */
+    public void clearList() {
+        openList.clear();
+        closeList.clear();
+    }
 }
