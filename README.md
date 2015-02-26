@@ -49,7 +49,7 @@ This is a eclipse project, please import this project in to your eclipse in orde
         4,0
         Please enter the position for smiley face 4, separated by comma
          eg. 3, 4
-        6,6
+        5,1
         E - Empty, O - obstacle, S - Smiley face move path 
 
         S S S O _ _ _ 
@@ -95,11 +95,11 @@ This is a eclipse project, please import this project in to your eclipse in orde
         _ O _ _ O _ _ 
         _ O _ _ O _ _ 
         _ O O S O _ _ 
-        _ _ O S S S S 
-        _ _ O O O _ S 
-        _ _ _ _ _ _ S 
+        _ _ O S S S _ 
+        _ S O O O S _ 
+        _ S S S S S _ 
 
-        Position [6, 6] -> Position [5, 6] -> Position [4, 6] -> Position [4, 5] -> Position [4, 4] -> Position [4, 3] -> Position [3, 3]
-        Total cost form Position [6, 6] to home: 6
+        Position [5, 1] -> Position [6, 1] -> Position [6, 2] -> Position [6, 3] -> Position [6, 4] -> Position [6, 5] -> Position [5, 5] -> Position [4, 5] -> Position [4, 4] -> Position [4, 3] -> Position [3, 3]
+        Total cost form Position [5, 1] to home: 10
 
         The winner is Smiley face at Position [0, 0]
