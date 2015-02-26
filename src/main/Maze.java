@@ -243,9 +243,15 @@ public class Maze {
      * @param position
      * @return boolean indicate if the cell is empty or not
      */
-    private static boolean isAvailable(Position position) {
-        return positionToCell(position).getCellType() == CellType.EMPTY
-                || positionToCell(position).getCellType() == CellType.HOME;
+    public static boolean isAvailable(Position position) {
+        Maze maze = SingletonMaze.MAZE_INSTANCE;
+        if (maze.boardHeightRange.contains(position.X)
+                && maze.boardWidthRange.contains(position.Y)) {
+            return positionToCell(position).getCellType() == CellType.EMPTY
+                    || positionToCell(position).getCellType() == CellType.HOME;
+        } else {
+            return false;
+        }
     }
 
     // Hard coded first maze
@@ -294,9 +300,22 @@ public class Maze {
         board[6][8].setCellType(CellType.BOUNDAY);
     }
 
+    /**
+     * Get Cell by Position Possible throw InvalidArgumentException is the
+     * Position is invalid
+     *
+     * @param position
+     * @return Cell
+     */
     public static Cell positionToCell(Position position) {
+        Maze maze= SingletonMaze.MAZE_INSTANCE;
+        Preconditions.checkArgument(
+                maze.boardHeightRange.contains(position.X)
+                && maze.boardWidthRange.contains(position.Y),
+                "Invalid position at board index [%s, %s]", position.X, position.Y);
         return SingletonMaze.MAZE_INSTANCE.board[position.X][position.Y];
     }
+
     /**
      *
      * @return a hard coded two dimensional array representation of the first

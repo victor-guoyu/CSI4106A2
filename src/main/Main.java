@@ -1,6 +1,7 @@
 package main;
 
 import java.util.List;
+import java.util.Scanner;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
@@ -8,13 +9,18 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
+import com.google.common.collect.Range;
+import com.google.common.primitives.Ints;
 
 public class Main {
+
+    private static Scanner scanner = new Scanner(System.in);
+    private static Cell home;
 
     public static void main(String[] args) {
         AStartAlgorithm algorithm = new AStartAlgorithm();
         Cell[][] board = getBoard();
-        Cell home = Maze.getHome();
+        home = Maze.getHome();
         List<SmileyFace> smileys = getSmileys();
 
         for (SmileyFace smiley : smileys) {
@@ -22,8 +28,11 @@ public class Main {
             List<Cell> path = algorithm.run(board, smileyCell, home);
             printMaze(board, path);
             printPath(path);
-            System.out.println(String.format("Total cost form %s to home: %s\n",
-                    smileyCell.toString(), home.getCost()));
+            System.out.println(
+                    String
+                    .format("Total cost form %s to home: %s\n",
+                    smileyCell.toString(),
+                    home.getCost()));
             smiley.setCost(home.getCost());
             Maze.resetBoard();
             algorithm.clearList();
@@ -75,11 +84,18 @@ public class Main {
      */
     private static List<SmileyFace> getSmileys() {
         List<Position> positions = Lists.newArrayList();
-        positions.add(new Position(0, 0));
-        positions.add(new Position(0, 6));
-        positions.add(new Position(5, 0));
-        positions.add(new Position(6, 6));
-
+        while (positions.size() != 4) {
+            String msg = String
+                    .format("Please enter the position for smiley face %s, separated by comma\n eg. 3, 4",
+                            positions.size() + 1);
+            System.out.println(msg);
+            Position position = getUserInputPosition();
+            if (Maze.isAvailable(position) && !position.equals(home.getPosition())) {
+                positions.add(position);
+            } else {
+                System.out.println("The position entered is invalid");
+            }
+        }
         Iterable<SmileyFace> smileyFaces= Iterables.transform(positions,
                 new Function<Position, SmileyFace>(){
 
@@ -92,9 +108,36 @@ public class Main {
     }
 
     /**
+     * Parse user input to Position
+     * @return
+     */
+    private static Position getUserInputPosition() {
+        String msg = "Invalid format: The input should be two digit separated by comma\n eg. 3, 4";
+        String inputString = scanner.nextLine();
+        String [] point = inputString.split(",");
+        if (point.length != 2) {
+            System.out.println(msg);
+            return getUserInputPosition();
+        }
+        Integer x = Ints.tryParse(point[0]);
+        Integer y = Ints.tryParse(point[1]);
+        if (x == null || y == null) {
+            System.out.println(msg);
+            return getUserInputPosition();
+        }
+        return new Position(x, y);
+    }
+    /**
      * @return Cell[][] board based on user input
      */
     private static Cell[][] getBoard() {
-        return Maze.getFistBoard();
+        String msg = "Please select the maze, enter 1 for the first maze, 2 for the second maze";
+        Range<Integer> range = Range.closed(1, 2);
+        Integer type = null;
+        while (type == null || !range.contains(type)) {
+            System.out.println(msg);
+            type = Ints.tryParse(scanner.nextLine());
+        }
+        return type == 1 ? Maze.getFistBoard() : Maze.getSecondBoard();
     }
 }
